@@ -1,0 +1,388 @@
+/* ===================================
+   LEARNIFY — MAIN STYLESHEET
+   =================================== */
+
+/* ----- 1. RESET & BASE STYLES ----- */
+/* Remove default browser spacing and set box model */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base font and background for the whole page */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Make all links clean (no underline by default) */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Make all images responsive */
+img {
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Remove bullet points from lists */
+ul {
+  list-style: none;
+}
+
+
+/* ----- 2. NAVBAR ----- */
+header {
+  background-color: #1a1a2e;
+  padding: 16px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100; /* stays on top when scrolling */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e94560;
+  letter-spacing: 1px;
+}
+
+nav ul {
+  display: flex;
+  gap: 28px;
+}
+
+nav ul li a {
+  color: #ccc;
+  font-size: 0.95rem;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #e94560;
+}
+
+/* Special styling for the Sign Up link */
+nav ul li:last-child a {
+  background-color: #e94560;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+nav ul li:last-child a:hover {
+  background-color: #c73652;
+}
+
+
+/* ----- 3. HERO SECTION ----- */
+#hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+#hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+#hero h1 span {
+  color: #e94560;
+}
+
+#hero p {
+  font-size: 1.2rem;
+  color: #aaa;
+  max-width: 600px;
+  margin: 0 auto 36px;
+}
+
+#hero a {
+  background-color: #e94560;
+  color: white;
+  padding: 14px 36px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background-color 0.3s, transform 0.2s;
+  display: inline-block;
+}
+
+#hero a:hover {
+  background-color: #c73652;
+  transform: translateY(-2px);
+}
+
+
+/* ----- 4. SECTION SHARED STYLES ----- */
+section {
+  padding: 80px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 50px;
+  color: #1a1a2e;
+}
+
+
+/* ----- 5. FEATURE CARDS ----- */
+#features {
+  background-color: #fff;
+  max-width: 100%;
+  padding: 80px 40px;
+}
+
+#features h2 {
+  max-width: 1200px;
+  margin: 0 auto 50px;
+}
+
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: #f5f7fa;
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #e0e0e0;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card span {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #1a1a2e;
+}
+
+.card p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+
+/* ----- 6. COURSE CARDS ----- */
+.course-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.course-card {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.course-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 16px 16px 6px;
+  color: #1a1a2e;
+}
+
+.course-card p {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0 16px;
+}
+
+.course-card span {
+  display: block;
+  font-size: 0.85rem;
+  color: #555;
+  margin: 8px 16px;
+}
+
+.course-card a {
+  display: block;
+  margin: 16px;
+  background-color: #e94560;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.course-card a:hover {
+  background-color: #c73652;
+}
+
+
+/* ----- 7. FOOTER ----- */
+footer {
+  background-color: #1a1a2e;
+  color: #aaa;
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 0.9rem;
+}
+
+
+/* ----- 8. RESPONSIVE DESIGN (Mobile) ----- */
+@media (max-width: 768px) {
+
+  /* Hide nav links on mobile */
+  nav ul {
+    display: none;
+  }
+
+  #hero h1 {
+    font-size: 2rem;
+  }
+
+  #hero p {
+    font-size: 1rem;
+  }
+
+  section {
+    padding: 60px 20px;
+  }
+}
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* Show hamburger only on mobile */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  /* Hidden by default on mobile */
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background-color: #1a1a2e;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  /* Show when 'open' class is added by JS */
+  nav ul.open {
+    display: flex;
+  }
+}
+
+
+/* ----- SCROLLED NAVBAR ----- */
+header.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+
+/* ----- SEARCH BAR ----- */
+#search-bar {
+  background-color: #16213e;
+  padding: 16px 40px;
+  text-align: center;
+}
+
+#search-input {
+  width: 100%;
+  max-width: 600px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  background-color: #0f3460;
+  color: white;
+}
+
+#search-input::placeholder {
+  color: #aaa;
+}
+
+#search-input:focus {
+  background-color: #1a4a7a;
+}
+
+
+/* ----- FILTER BUTTONS ----- */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 22px;
+  border-radius: 20px;
+  border: 2px solid #e94560;
+  background: transparent;
+  color: #e94560;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background-color: #e94560;
+  color: white;
+}

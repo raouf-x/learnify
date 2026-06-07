@@ -1,0 +1,147 @@
+
+/* ===== COURSES PAGE ===== */
+.courses-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.courses-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.courses-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+
+.courses-header p {
+  color: #888;
+  font-size: 1rem;
+}
+
+/* Controls row */
+.courses-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.courses-search {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: 2px solid #e0e0e0;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.courses-search:focus {
+  border-color: #e94560;
+}
+
+.courses-sort {
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: 2px solid #e0e0e0;
+  font-size: 0.95rem;
+  outline: none;
+  cursor: pointer;
+  background: white;
+  transition: border-color 0.3s;
+}
+
+.courses-sort:focus {
+  border-color: #e94560;
+}
+
+/* Category tabs */
+.category-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 24px;
+  border-radius: 20px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #555;
+}
+
+.tab:hover {
+  border-color: #e94560;
+  color: #e94560;
+}
+
+.tab.active {
+  background-color: #e94560;
+  border-color: #e94560;
+  color: white;
+}
+
+/* Results count */
+.results-count {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+/* Grid */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+/* No results */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.no-results span {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.no-results p {
+  color: #888;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.no-results button {
+  padding: 10px 24px;
+  background-color: #e94560;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.no-results button:hover {
+  background-color: #c73652;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .courses-controls { flex-direction: column; }
+  .courses-search, .courses-sort { width: 100%; }
+}
