@@ -2,11 +2,11 @@
 //   LEARNIFY — API CONFIGURATION
 // ===================================
 
-const API_URL = 'https://learnify-57xq.onrender.com/api';
+// Uses environment variable in production, fallback for development
+const API_URL = import.meta.env.VITE_API_URL || 'https://learnify-57xq.onrender.com/api';
 
 // ===== AUTH CALLS =====
 
-// Register new user
 export const registerUser = async (userData) => {
   const res = await fetch(`${API_URL}/auth/register`, {
     method: 'POST',
@@ -16,7 +16,6 @@ export const registerUser = async (userData) => {
   return res.json();
 };
 
-// Login user
 export const loginUser = async (userData) => {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
@@ -26,7 +25,6 @@ export const loginUser = async (userData) => {
   return res.json();
 };
 
-// Get current logged in user
 export const getMe = async (token) => {
   const res = await fetch(`${API_URL}/auth/me`, {
     method: 'GET',
@@ -40,20 +38,17 @@ export const getMe = async (token) => {
 
 // ===== COURSE CALLS =====
 
-// Get all courses
 export const getCourses = async (filters = {}) => {
   const params = new URLSearchParams(filters).toString();
   const res = await fetch(`${API_URL}/courses?${params}`);
   return res.json();
 };
 
-// Get single course
 export const getCourseById = async (id) => {
   const res = await fetch(`${API_URL}/courses/${id}`);
   return res.json();
 };
 
-// Create a course (instructor only)
 export const createCourse = async (courseData, token) => {
   const res = await fetch(`${API_URL}/courses`, {
     method: 'POST',
@@ -66,7 +61,6 @@ export const createCourse = async (courseData, token) => {
   return res.json();
 };
 
-// Delete a course
 export const deleteCourse = async (id, token) => {
   const res = await fetch(`${API_URL}/courses/${id}`, {
     method: 'DELETE',
