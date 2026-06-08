@@ -2,6 +2,15 @@ const mongoose = require('mongoose');
 const bcrypt   = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
+  isPremium: {
+  type: Boolean,
+  default: false
+},
+plan: {
+  type: String,
+  enum: ['free', 'basic', 'premium', 'lifetime'],
+  default: 'free'
+},
   name: {
     type: String,
     required: [true, 'Name is required'],
@@ -50,5 +59,6 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
 
 module.exports = mongoose.model('User', userSchema);
