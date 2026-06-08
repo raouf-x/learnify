@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Activate from './pages/Activate';
+import Admin from './pages/Admin';
 
 function NotFound() {
   return <h2 style={{padding:'100px', textAlign:'center'}}>404 — Page Not Found</h2>;
@@ -25,6 +26,7 @@ function App() {
         <Route path="/register"    element={<Register />} />
         <Route path="/dashboard"   element={<Dashboard />} />
         <Route path="/activate"    element={<Activate />} />
+        <Route path="/admin"       element={<Admin />} />
         <Route path="*"            element={<NotFound />} />
       </Routes>
       <Footer />

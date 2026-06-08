@@ -1,15 +1,20 @@
-const express = require('express');
-const router  = express.Router();
-const { register, login, getMe } = require('../controllers/authController');
-const protect = require('../middleware/authMiddleware');
+const express   = require('express');
+const router    = express.Router();
+const {
+  register, login, getMe, getAllUsers, updateUserRole
+} = require('../controllers/authController');
+const protect   = require('../middleware/authMiddleware');
+const adminOnly = require('../middleware/adminMiddleware');
 
-// @route  POST /api/auth/register
+// Public routes
 router.post('/register', register);
+router.post('/login',    login);
 
-// @route  POST /api/auth/login
-router.post('/login', login);
-
-// @route  GET /api/auth/me (protected)
+// Protected routes
 router.get('/me', protect, getMe);
+
+// Admin only routes
+router.get('/users',              protect, adminOnly, getAllUsers);
+router.put('/users/:id/role',     protect, adminOnly, updateUserRole);
 
 module.exports = router;
