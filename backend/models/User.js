@@ -2,15 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt   = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  isPremium: {
-  type: Boolean,
-  default: false
-},
-plan: {
-  type: String,
-  enum: ['free', 'basic', 'premium', 'lifetime'],
-  default: 'free'
-},
   name: {
     type: String,
     required: [true, 'Name is required'],
@@ -37,9 +28,28 @@ plan: {
     type: String,
     default: ''
   },
+  isPremium: {
+    type: Boolean,
+    default: false
+  },
+  plan: {
+    type: String,
+    enum: ['free', 'basic', 'premium', 'lifetime'],
+    default: 'free'
+  },
   enrolledCourses: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Course'
+  }],
+  // Progress tracking
+  progress: [{
+    courseId: {
+      type: String,
+      required: true
+    },
+    completed:  { type: Boolean, default: false },
+    completedAt:{ type: Date,    default: null   },
+    lastWatched:{ type: Date,    default: Date.now }
   }],
   createdAt: {
     type: Date,
@@ -50,15 +60,14 @@ plan: {
 // Hash password before saving
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  const salt = await bcrypt.genSalt(10);
+  const salt    = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
-// Method to compare passwords
+// Compare passwords
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
-
 
 module.exports = mongoose.model('User', userSchema);

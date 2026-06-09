@@ -70,3 +70,38 @@ export const deleteCourse = async (id, token) => {
 };
 
 export default API_URL;
+// ===== PROGRESS CALLS =====
+
+// Mark course as complete
+export const markCourseComplete = async (courseId, token) => {
+  const res = await fetch(`${API_URL}/progress/complete`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ courseId })
+  });
+  return res.json();
+};
+
+// Mark course as watched
+export const markCourseWatched = async (courseId, token) => {
+  const res = await fetch(`${API_URL}/progress/watch`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ courseId })
+  });
+  return res.json();
+};
+
+// Get all progress
+export const getUserProgress = async (token) => {
+  const res = await fetch(`${API_URL}/progress`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  return res.json();
+};

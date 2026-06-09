@@ -1,18 +1,28 @@
-import { useState } from 'react';
+ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { createCourse } from '../api';
+import { createCourse, getUserProgress } from '../api';
 import './Dashboard.css';
 
 function Dashboard() {
   const { user, token, logout } = useAuth();
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('profile');
+  const navigate                = useNavigate();
+  const [activeTab, setActiveTab]   = useState('profile');
+  const [progress, setProgress]     = useState([]);
   const [courseForm, setCourseForm] = useState({
     title: '', description: '', category: 'frontend', videoUrl: '', image: ''
   });
   const [msg, setMsg]         = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Load progress
+  useEffect(() => {
+    if (token) {
+      getUserProgress(token).then(data => {
+        if (Array.isArray(data)) setProgress(data);
+      }).catch(() => {});
+    }
+  }, [token]);
 
   // Redirect if not logged in
   if (!user) {
@@ -51,6 +61,9 @@ function Dashboard() {
     setLoading(false);
   };
 
+  const completedCount = progress.filter(p => p.completed).length;
+  const watchedCount   = progress.length;
+
   return (
     <div className="dashboard-page">
 
@@ -62,6 +75,9 @@ function Dashboard() {
           </div>
           <h3>{user.name}</h3>
           <span className={`role-badge ${user.role}`}>{user.role}</span>
+          {user.isPremium && (
+            <span className="premium-badge">💎 {user.plan?.toUpperCase()}</span>
+          )}
           <p>{user.email}</p>
         </div>
 
@@ -74,13 +90,25 @@ function Dashboard() {
           <button
             className={activeTab === 'courses' ? 'dash-btn active' : 'dash-btn'}
             onClick={() => setActiveTab('courses')}
-          >📚 My Courses</button>
+          >📚 My Progress</button>
 
-          {user.role === 'instructor' && (
+          {user.role === 'instructor' || user.role === 'admin' ? (
             <button
               className={activeTab === 'create' ? 'dash-btn active' : 'dash-btn'}
               onClick={() => setActiveTab('create')}
             >➕ Create Course</button>
+          ) : null}
+
+          {user.role === 'admin' && (
+            <Link to="/admin" className="dash-btn">
+              🛠️ Admin Panel
+            </Link>
+          )}
+
+          {!user.isPremium && (
+            <Link to="/activate" className="dash-btn activate-btn">
+              🔑 Activate Account
+            </Link>
           )}
 
           <button className="dash-btn logout" onClick={handleLogout}>
@@ -96,6 +124,7 @@ function Dashboard() {
         {activeTab === 'profile' && (
           <div className="dash-section">
             <h2>👤 My Profile</h2>
+
             <div className="profile-card">
               <div className="profile-row">
                 <span>Full Name</span>
@@ -110,6 +139,10 @@ function Dashboard() {
                 <strong className={`role-badge ${user.role}`}>{user.role}</strong>
               </div>
               <div className="profile-row">
+                <span>Account Type</span>
+                <strong>{user.isPremium ? `💎 ${user.plan?.toUpperCase()}` : '🆓 Free'}</strong>
+              </div>
+              <div className="profile-row">
                 <span>Member Since</span>
                 <strong>{new Date(user.createdAt || Date.now()).toLocaleDateString()}</strong>
               </div>
@@ -118,42 +151,101 @@ function Dashboard() {
             {/* Stats */}
             <div className="dash-stats">
               <div className="stat-card">
-                <span>📚</span>
-                <h3>0</h3>
-                <p>Enrolled Courses</p>
+                <span>👁️</span>
+                <h3>{watchedCount}</h3>
+                <p>Watched Courses</p>
               </div>
               <div className="stat-card">
                 <span>✅</span>
-                <h3>0</h3>
+                <h3>{completedCount}</h3>
                 <p>Completed</p>
               </div>
               <div className="stat-card">
                 <span>🏆</span>
-                <h3>0</h3>
+                <h3>{completedCount}</h3>
                 <p>Certificates</p>
               </div>
             </div>
+
+            {/* Activate CTA if not premium */}
+            {!user.isPremium && (
+              <div className="activate-cta">
+                <span>🔑</span>
+                <div>
+                  <h4>Unlock Full Access</h4>
+                  <p>Enter your activation code to get premium access to all courses.</p>
+                </div>
+                <Link to="/activate" className="btn-activate-now">Activate Now</Link>
+              </div>
+            )}
           </div>
         )}
 
-        {/* MY COURSES TAB */}
+        {/* MY PROGRESS TAB */}
         {activeTab === 'courses' && (
           <div className="dash-section">
-            <h2>📚 My Courses</h2>
-            <div className="empty-state">
-              <span>🎓</span>
-              <p>You haven't enrolled in any courses yet!</p>
-              <Link to="/courses" className="btn-browse">Browse Courses</Link>
+            <h2>📚 My Progress</h2>
+
+            {/* Progress overview */}
+            <div className="progress-overview">
+              <div className="progress-stat">
+                <h3>{watchedCount}</h3>
+                <p>Courses Started</p>
+              </div>
+              <div className="progress-divider" />
+              <div className="progress-stat">
+                <h3>{completedCount}</h3>
+                <p>Completed</p>
+              </div>
+              <div className="progress-divider" />
+              <div className="progress-stat">
+                <h3>{watchedCount > 0 ? Math.round((completedCount / watchedCount) * 100) : 0}%</h3>
+                <p>Completion Rate</p>
+              </div>
             </div>
+
+            {progress.length > 0 ? (
+              <div className="progress-list">
+                {progress.map((p, i) => (
+                  <div key={i} className="progress-item">
+                    <div className="progress-info">
+                      <span className="progress-course-id">Course #{p.courseId}</span>
+                      <span className={p.completed ? 'status-done' : 'status-watching'}>
+                        {p.completed ? '✅ Completed' : '👁️ Watching'}
+                      </span>
+                    </div>
+                    <div className="progress-meta">
+                      <span>Last watched: {new Date(p.lastWatched).toLocaleDateString()}</span>
+                      {p.completedAt && (
+                        <span>Completed: {new Date(p.completedAt).toLocaleDateString()}</span>
+                      )}
+                    </div>
+                    <Link to={`/courses/${p.courseId}`} className="btn-continue">
+                      {p.completed ? '🔁 Review' : '▶ Continue'}
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="empty-state">
+                <span>🎓</span>
+                <p>You haven't started any courses yet!</p>
+                <Link to="/courses" className="btn-browse">Browse Courses</Link>
+              </div>
+            )}
           </div>
         )}
 
-        {/* CREATE COURSE TAB (Instructors only) */}
-        {activeTab === 'create' && user.role === 'instructor' && (
+        {/* CREATE COURSE TAB */}
+        {activeTab === 'create' && (user.role === 'instructor' || user.role === 'admin') && (
           <div className="dash-section">
             <h2>➕ Create New Course</h2>
 
-            {msg && <div className={msg.startsWith('✅') ? 'msg-success' : 'msg-error'}>{msg}</div>}
+            {msg && (
+              <div className={msg.startsWith('✅') ? 'msg-success' : 'msg-error'}>
+                {msg}
+              </div>
+            )}
 
             <form onSubmit={handleCreateCourse} className="course-form">
               <div className="form-group">
