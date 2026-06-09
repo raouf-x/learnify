@@ -56,3 +56,12 @@ mongoose
   });
   const codeRoutes = require('./routes/codeRoutes');
 app.use('/api/codes', codeRoutes);
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://learnify-pld3apjrf-leranify.vercel.app',
+    'https://learnify-eta-hazel.vercel.app',
+    /\.vercel\.app$/
+  ],
+  credentials: true
+}));
