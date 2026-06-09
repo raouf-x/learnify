@@ -1,5 +1,6 @@
 const AccessCode = require('../models/AccessCode');
 const User       = require('../models/User');
+const { sendActivationEmail } = require('../utils/emailService');
 
 // Generate a random unique code like LEARN-A7X2-K9P3
 const generateCode = () => {
@@ -70,10 +71,15 @@ const activateCode = async (req, res) => {
     await accessCode.save();
 
     // Upgrade user account
-    await User.findByIdAndUpdate(req.user._id, {
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, {
       isPremium: true,
       plan: accessCode.plan
-    });
+    }, { new: true });
+
+    // Send activation email in background
+    sendActivationEmail(updatedUser, accessCode.plan).catch(err =>
+      console.error('Email error:', err.message)
+    );
 
     res.json({
       message: `🎉 Code activated! Your account is now ${accessCode.plan.toUpperCase()}!`,

@@ -1,5 +1,6 @@
 const jwt  = require('jsonwebtoken');
 const User = require('../models/User');
+const { sendWelcomeEmail } = require('../utils/emailService');
 
 // Generate JWT token
 const generateToken = (id) => {
@@ -22,6 +23,11 @@ const register = async (req, res) => {
     const user = await User.create({ name, email, password, role });
 
     if (user) {
+      // Send welcome email (don't await — send in background)
+      sendWelcomeEmail(user).catch(err =>
+        console.error('Email error:', err.message)
+      );
+
       res.status(201).json({
         _id:   user._id,
         name:  user.name,
@@ -40,18 +46,17 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Find user by email
     const user = await User.findOne({ email });
 
-    // Check password
     if (user && (await user.matchPassword(password))) {
       res.json({
-        _id:   user._id,
-        name:  user.name,
-        email: user.email,
-        role:  user.role,
-        token: generateToken(user._id)
+        _id:       user._id,
+        name:      user.name,
+        email:     user.email,
+        role:      user.role,
+        isPremium: user.isPremium,
+        plan:      user.plan,
+        token:     generateToken(user._id)
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
@@ -98,5 +103,4 @@ const updateUserRole = async (req, res) => {
   }
 };
 
- 
 module.exports = { register, login, getMe, getAllUsers, updateUserRole };
