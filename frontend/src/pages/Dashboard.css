@@ -316,3 +316,84 @@
   font-weight: 600;
   font-size: 0.9rem;
 }
+/* Premium badge */
+.premium-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  color: white;
+  padding: 3px 12px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+/* Activate CTA */
+.activate-cta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #fff0f3, #f5f0ff);
+  border: 1px solid #e94560;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 24px;
+}
+.activate-cta span { font-size: 2rem; }
+.activate-cta h4 { color: #1a1a2e; margin-bottom: 4px; font-size: 1rem; }
+.activate-cta p  { color: #888; font-size: 0.85rem; margin: 0; }
+.btn-activate-now {
+  margin-left: auto;
+  padding: 10px 20px;
+  background: #e94560;
+  color: white;
+  border-radius: 8px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.3s;
+}
+.btn-activate-now:hover { background: #c73652; }
+.activate-btn { color: #e94560 !important; }
+
+/* Progress overview */
+.progress-overview {
+  display: flex;
+  align-items: center;
+  background: #f5f7fa;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  gap: 24px;
+}
+.progress-stat { text-align: center; flex: 1; }
+.progress-stat h3 { font-size: 2rem; font-weight: 800; color: #1a1a2e; }
+.progress-stat p  { font-size: 0.85rem; color: #888; margin-top: 4px; }
+.progress-divider { width: 1px; height: 60px; background: #e0e0e0; }
+
+/* Progress list */
+.progress-list { display: flex; flex-direction: column; gap: 12px; }
+.progress-item {
+  background: #f5f7fa;
+  border-radius: 10px;
+  padding: 16px 20px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.progress-info { display: flex; gap: 12px; align-items: center; flex: 1; }
+.progress-course-id { font-weight: 700; color: #1a1a2e; }
+.status-done     { color: #16a34a; font-weight: 600; font-size: 0.85rem; }
+.status-watching { color: #6366f1; font-weight: 600; font-size: 0.85rem; }
+.progress-meta   { font-size: 0.8rem; color: #888; display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-continue {
+  padding: 8px 16px;
+  background: #e94560;
+  color: white;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+.btn-continue:hover { background: #c73652; }
