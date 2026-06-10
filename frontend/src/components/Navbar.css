@@ -100,3 +100,20 @@ nav {
   background-color: #e94560;
   color: white;
 }
+/* Language toggle button */
+.btn-lang {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-lang:hover {
+  background: rgba(233,69,96,0.2);
+  border-color: #e94560;
+  color: #e94560;
+}
