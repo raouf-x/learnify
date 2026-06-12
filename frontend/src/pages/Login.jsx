@@ -1,87 +1,121 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLang } from '../context/LanguageContext';
 import './Auth.css';
 
-function Login() {
-  const navigate = useNavigate();
-  const { login } = useAuth();
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [error, setError]       = useState('');
-  const [loading, setLoading]   = useState(false);
+export default function Login() {
+  const navigate          = useNavigate();
+  const { login }         = useAuth();
+  const { t }             = useLang();
+  const [form, setForm]   = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
     setError('');
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
-      setError('Please fill in all fields.');
-      return;
-    }
+    if (!form.email || !form.password) { setError(t.emailLabel + ' & ' + t.passwordLabel + ' required'); return; }
     setLoading(true);
-    const result = await login(formData.email, formData.password);
+    const res = await login(form.email, form.password);
     setLoading(false);
-    if (result.success) {
-      navigate('/');
-    } else {
-      setError(result.message || 'Login failed. Please try again.');
-    }
+    if (res.success) navigate('/');
+    else setError(res.message || 'Login failed');
   };
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-logo">📚 Learnify</div>
-        <h2>Welcome Back!</h2>
-        <p className="auth-subtitle">Login to continue learning</p>
+      {/* Background effects */}
+      <div className="auth-bg-orb auth-orb1" />
+      <div className="auth-bg-orb auth-orb2" />
+      <div className="auth-grid" />
 
-        {error && <div className="auth-error">⚠️ {error}</div>}
+      <div className="auth-card">
+        {/* Top glow line */}
+        <div className="auth-card-glow" />
+
+        {/* Logo */}
+        <div className="auth-logo">
+          <span className="auth-logo-icon">📚</span>
+          <span className="auth-logo-text">LEARNIFY</span>
+        </div>
+        <div className="auth-badge">BAC 2027 🇩🇿</div>
+
+        <h2 className="auth-title">{t.welcomeBack}</h2>
+        <p className="auth-sub">{t.loginSubtitle}</p>
+
+        {/* Error */}
+        {error && (
+          <div className="auth-error">
+            <span>⚠️</span> {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
-            <label>Email Address</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="you@example.com"
-              value={formData.email}
-              onChange={handleChange}
-            />
+          {/* Email */}
+          <div className="auth-field">
+            <label>{t.emailLabel}</label>
+            <div className="auth-input-wrap">
+              <span className="auth-input-icon">📧</span>
+              <input
+                type="email" name="email"
+                placeholder="example@gmail.com"
+                value={form.email}
+                onChange={handleChange}
+                autoComplete="email"
+              />
+              <div className="auth-input-line" />
+            </div>
           </div>
 
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            <a href="#" className="forgot-link">Forgot password?</a>
+          {/* Password */}
+          <div className="auth-field">
+            <div className="auth-field-header">
+              <label>{t.passwordLabel}</label>
+              <a href="#" className="auth-forgot">{t.forgotPassword}</a>
+            </div>
+            <div className="auth-input-wrap">
+              <span className="auth-input-icon">🔒</span>
+              <input
+                type={showPass ? 'text' : 'password'}
+                name="password"
+                placeholder="••••••••"
+                value={form.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+              />
+              <button type="button" className="auth-eye" onClick={() => setShowPass(!showPass)}>
+                {showPass ? '🙈' : '👁️'}
+              </button>
+              <div className="auth-input-line" />
+            </div>
           </div>
 
-          <button type="submit" className="btn-auth" disabled={loading}>
-            {loading ? '⏳ Logging in...' : 'Login →'}
+          <button type="submit" className="auth-submit" disabled={loading}>
+            {loading ? (
+              <><span className="auth-spinner" /> جاري تسجيل الدخول...</>
+            ) : (
+              <>{t.loginBtn} <span className="btn-arrow">→</span></>
+            )}
           </button>
         </form>
 
-        <div className="auth-divider"><span>or</span></div>
+        <div className="auth-divider"><span>أو</span></div>
 
-        <button className="btn-social">
-          <img src="https://www.google.com/favicon.ico" alt="Google" width="18" />
-          Continue with Google
+        <button className="auth-google">
+          <img src="https://www.google.com/favicon.ico" alt="Google" width="16" />
+          {t.googleLogin}
         </button>
 
         <p className="auth-switch">
-          Don't have an account? <Link to="/register">Sign Up Free</Link>
+          {t.noAccount} <Link to="/register">{t.signUpFree}</Link>
         </p>
       </div>
     </div>
   );
 }
-
-export default Login;
