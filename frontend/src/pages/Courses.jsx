@@ -66,7 +66,7 @@ export default function Courses() {
     { id: 'cours',      labelFr: 'Cours',         labelAr: 'دروس'      },
     { id: 'exercice',   labelFr: 'Exercices',     labelAr: 'تمارين'    },
     { id: 'methodologie',labelFr:'Méthodologie',  labelAr: 'منهجية'    },
-    { id: 'tanafos',    labelFr: 'Tanafos',       labelAr: 'تنافس'     },
+    { id: 'tanafos',    labelFr: 'Tanafos',       labelAr: 'تنفس'     },
     { id: 'revision',   labelFr: 'Révision',      labelAr: 'مراجعة'    },
   ];
 
